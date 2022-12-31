@@ -5,7 +5,7 @@ const { uptime } = require("./uptime.command");
 const commandList = {
     "!help": help,
     "!uptime": uptime,
-    "!buggy": () => "punky",
+    "!buggy": () => "ponki",
     "!version": () => "🤖 Zelzazor BOT: v0.0.1"
 }
 
