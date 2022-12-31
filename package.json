@@ -1,0 +1,16 @@
+{
+  "name": "ws-bot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start:dev": "nodemon .",
+    "start": "node ."
+  },
+  "dependencies": {
+    "venom-bot": "^4.3.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
