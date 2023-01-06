@@ -1,6 +1,19 @@
+const fs = require('fs');
 const venom = require('venom-bot');
 const { checkIfCommandExists } = require('./utils/check-command');
 const { commands } = require('./commands');
+const { countdown } = require('./utils/countdown');
+const { getData } = require('./utils/get-data');
+const { everyone } = require('./commands/everyone.command');
+
+if(!fs.existsSync('./data.json')) {
+  fs.writeFileSync('./data.json', JSON.stringify({
+      cooldown: false,
+      timeEnd: 0
+  }, null, 2));
+}
+
+let { cooldown, timeEnd } = getData();
 
 venom
   .create({
@@ -20,15 +33,8 @@ venom
 */
 function start(client) {
   client.onMessage(async (message) => {
-    if(message.body && message.body.includes("!everyone")) {
-
-        const members = await client.getGroupMembersIds(message.from);
-
-        const mentioned = members.map((member) => {
-            return `@${member.id.user}`;
-        });
-
-        client.sendMentioned(message.from, mentioned.join(" "), members.map((member) => member.id.user))
+    if(message.body && message.body.includes("!todos")) {
+      await everyone(client, message, cooldown, timeEnd, countdown);
     }
     else if (checkIfCommandExists(message.body)) {
       const result = await commands(message.body, client, message);

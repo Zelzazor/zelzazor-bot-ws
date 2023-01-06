@@ -10,7 +10,7 @@ const commandList = {
 }
 
 const commands = async (command, client, message) => {
-    const result = await commandList[command.split(" ")[0].toLowerCase()](command.split(" ").slice(1), client, message);
+    const result = await commandList[command.split(" ")[0].toLowerCase()](command.split(" ", 1).slice(1), client, message);
     return result;
 }
 

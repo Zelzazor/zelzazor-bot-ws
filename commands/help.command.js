@@ -5,7 +5,7 @@ Commands:
     !help - Shows this message
     !uptime - Shows the uptime of the bot
     !version - Shows the version of the bot
-    !everyone - Mention everyone in the group
+    !todos - Mention everyone in the group
 
 Made by Zelzazor`;
 }
