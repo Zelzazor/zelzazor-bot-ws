@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const fs = require('fs');
 const venom = require('venom-bot');
 const { checkIfCommandExists } = require('./utils/check-command');
