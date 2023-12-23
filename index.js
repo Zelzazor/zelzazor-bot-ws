@@ -2,9 +2,12 @@
 const fs = require('fs');
 const qrcode = require('qrcode-terminal');
 const { Client, LocalAuth } = require('whatsapp-web.js');
+const OpenAI = require('openai');
 
 const { commands } = require('./commands');
 const { checkIfCommandExists } = require('./utils/check-command');
+
+const openai = new OpenAI();
 
 const client = new Client({
   authStrategy: new LocalAuth(),
@@ -34,7 +37,7 @@ function start(client) {
   client.on('message', (message) => {
     if (!checkIfCommandExists(message.body)) return;
 
-    commands(message.body, client, message);
+    commands(message.body, client, message, openai);
 
   });
 }
