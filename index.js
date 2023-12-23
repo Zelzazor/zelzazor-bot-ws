@@ -1,9 +1,5 @@
 #!/usr/bin/env node
 const fs = require('fs');
-const { checkIfCommandExists } = require('./utils/check-command');
-const { commands } = require('./commands');
-const { getData } = require('./utils/get-data');
-const { everyone } = require('./commands/everyone.command');
 const qrcode = require('qrcode-terminal');
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const client = new Client({
@@ -12,6 +8,9 @@ const client = new Client({
     args: ['--no-sandbox'],
   },
 });
+
+const { commands } = require('./commands');
+const { checkIfCommandExists } = require('./utils/check-command');
 
 client.on('qr', qr => {
   qrcode.generate(qr, { small: true });
@@ -22,14 +21,6 @@ client.on('ready', () => {
   start(client);
 });
 
-if (!fs.existsSync('./data.json')) {
-  fs.writeFileSync('./data.json', JSON.stringify({
-    cooldown: false,
-    timeEnd: 0
-  }, null, 2));
-}
-
-let { cooldown, timeEnd } = getData();
 
 
 /**
@@ -42,7 +33,7 @@ function start(client) {
     if (!checkIfCommandExists(message.body)) return;
 
     const result = await commands(message.body, client, message);
-    
+
   });
 }
 
