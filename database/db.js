@@ -3,7 +3,7 @@ const fs = require('fs');
 
 let dbInstance = null;
 
-const initializeDb = async () => {
+const getDatabaseInstance = async () => {
   if (!dbInstance) {
     const SQL = await initSqlJs();
     const data = fs.readFileSync('dist/database.sqlite');
@@ -12,4 +12,4 @@ const initializeDb = async () => {
   return dbInstance;
 }
 
-module.exports = initializeDb;
+module.exports = getDatabaseInstance;

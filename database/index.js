@@ -1,5 +1,3 @@
-const initializeDb = require("./db.js");
+const getDatabaseInstance = require("./db.js");
 
-const db = initializeDb();
-
-module.exports = { db }
+module.exports = { getDatabaseInstance }
