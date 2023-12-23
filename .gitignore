@@ -135,3 +135,5 @@ data.json
 
 .wwebjs_auth/
 .wwebjs_cache/
+
+.env

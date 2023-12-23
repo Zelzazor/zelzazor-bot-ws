@@ -3,11 +3,14 @@ const fs = require('fs');
 const qrcode = require('qrcode-terminal');
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const OpenAI = require('openai');
+require('dotenv').config()
 
 const { commands } = require('./commands');
 const { checkIfCommandExists } = require('./utils/check-command');
 
-const openai = new OpenAI();
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 const client = new Client({
   authStrategy: new LocalAuth(),
