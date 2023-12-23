@@ -6,7 +6,7 @@ let dbInstance = null;
 const initializeDb = async () => {
   if (!dbInstance) {
     const SQL = await initSqlJs();
-    const data = fs.readFileSync('../dist/database.sqlite');
+    const data = fs.readFileSync('dist/database.sqlite');
     dbInstance = new SQL.Database(data);
   }
   return dbInstance;

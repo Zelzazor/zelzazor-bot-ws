@@ -4,6 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "database:initialize": "node ./scripts/initialize-database-file.js",
+    "prepare": "npm run database:initialize",
     "start:dev": "nodemon . --ext js",
     "start": "node ."
   },
