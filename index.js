@@ -6,6 +6,7 @@ const { Client, LocalAuth } = require('whatsapp-web.js');
 const { commands } = require('./commands');
 const { checkIfCommandExists } = require('./utils/check-command');
 
+
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
