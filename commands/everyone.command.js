@@ -1,42 +1,22 @@
 const fs = require('fs');
 
-const everyone = async (client, message, cooldown, timeEnd, countdown) => {
-    if(cooldown) {
-        client.sendText(message.from, `!everyone Cooldown: ${countdown(timeEnd-Date.now(), 'milliseconds')}`);
-        return;
-    }
+const everyone = async (_body, client, message) => {
 
-    const members = await client.getGroupMembersIds(message.from);
+  const chat = await message.getChat();
 
-    const mentioned = members.map((member) => {
-        return `@${member.id.user}`;
-    });
+  const mentions = []
 
-    client.sendMentioned(message.from, mentioned.join(" "), members.map((member) => member.id.user))
+  const mentioned = await Promise.all(chat.participants.map(async (participant) => {
+    const contact = await client.getContactById(participant.id._serialized);
+    mentions.push(contact.id._serialized);
+    return `@${participant.id.user}`;
+  }));
 
-    //client.sendText(message.from, "Everyone has been mentioned! 📣, no lo pongo para no molestar");
 
-    cooldown = true;
-    timeEnd = Date.now() + 1000 * 60 * 60;
+  await chat.sendMessage(mentioned.join(" "), { mentions })
 
-    fs.writeFile('./data.json', JSON.stringify({
-      cooldown,
-      timeEnd
-    }, null, 2), (err) => {
-      if(err) console.log(err);
-    })
-    
+  //client.sendText(message.from, "Everyone has been mentioned! 📣, no lo pongo para no molestar");
 
-    setTimeout(() => {
-      cooldown = false;
-      timeEnd = 0;
-      fs.writeFile('./data.json', JSON.stringify({
-        cooldown,
-        timeEnd
-      }, null, 2), (err) => {
-        if(err) console.log(err);
-      })
-    } , timeEnd - Date.now());
 }
 
 module.exports = { everyone };

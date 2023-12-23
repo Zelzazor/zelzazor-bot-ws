@@ -1,13 +1,13 @@
-const help = () => {
-    return `This is the help command! ⛑️
+const help = (_body, _client, message) => {
+    return message.reply(`This is the help command! ⛑️
 
 Commands:
     !help - Shows this message
     !uptime - Shows the uptime of the bot
     !version - Shows the version of the bot
-    !todos - Mention everyone in the group
+    !todos / !everyone - Mention everyone in the group
 
-Made by Zelzazor`;
+Made by Zelzazor`)
 }
 
 module.exports = { help };
