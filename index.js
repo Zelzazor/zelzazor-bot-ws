@@ -2,6 +2,10 @@
 const fs = require('fs');
 const qrcode = require('qrcode-terminal');
 const { Client, LocalAuth } = require('whatsapp-web.js');
+
+const { commands } = require('./commands');
+const { checkIfCommandExists } = require('./utils/check-command');
+
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
@@ -9,8 +13,6 @@ const client = new Client({
   },
 });
 
-const { commands } = require('./commands');
-const { checkIfCommandExists } = require('./utils/check-command');
 
 client.on('qr', qr => {
   qrcode.generate(qr, { small: true });
@@ -29,10 +31,10 @@ client.on('ready', () => {
 *     @returns {void}
 */
 function start(client) {
-  client.on('message', async (message) => {
+  client.on('message', (message) => {
     if (!checkIfCommandExists(message.body)) return;
 
-    const result = await commands(message.body, client, message);
+    commands(message.body, client, message);
 
   });
 }
