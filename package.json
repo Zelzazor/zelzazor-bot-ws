@@ -4,6 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "database:initialize": "node ./scripts/initialize-database-file.js",
+    "database:migrate": "node ./scripts/run-migrations.js",
+    "database:drop-schema": "rm -rf dist",
+    "database:reset": "npm run database:drop-schema && npm run database:initialize && npm run database:migrate",
+    "prepare": "npm run database:initialize",
     "start:dev": "nodemon . --ext js",
     "start": "node ."
   },
@@ -14,6 +19,7 @@
     "dotenv": "^16.3.1",
     "openai": "^4.24.1",
     "qrcode-terminal": "^0.12.0",
+    "sql.js": "^1.9.0",
     "whatsapp-web.js": "^1.23.0"
   }
 }

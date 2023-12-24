@@ -29,7 +29,7 @@ client.on('ready', () => {
   start(client);
 });
 
-
+const clientMessageEvent = process.env.NODE_ENV === "production" ? "message" : "message_create"
 
 /**
 *     Function to start the bot
@@ -37,7 +37,7 @@ client.on('ready', () => {
 *     @returns {void}
 */
 function start(client) {
-  client.on('message', (message) => {
+  client.on(clientMessageEvent, (message) => {
     if (!checkIfCommandExists(message.body)) return;
 
     commands(message.body, client, message, openai);
