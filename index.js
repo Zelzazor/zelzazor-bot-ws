@@ -29,7 +29,7 @@ client.on('ready', () => {
   start(client);
 });
 
-const clientMessageEvent = process.env.NODE_ENV === "production" ? "message" : "message_create" 
+const clientMessageEvent = process.env.NODE_ENV === "production" ? "message" : "message_create"
 
 /**
 *     Function to start the bot
