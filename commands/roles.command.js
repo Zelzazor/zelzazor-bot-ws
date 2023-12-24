@@ -1,6 +1,7 @@
 const { getDatabaseInstance } = require("../database");
 const { getRoles, insertRole } = require("../database/repositories/roles");
 const { getRoleSubscriptions, subscribePhoneNumberToRole, unsubscribePhoneNumberToRole } = require("../database/repositories/roles-subscribers");
+const { extractLeadingNumbers } = require("../utils/extract-leading-numbers");
 
 const roles = async (body, _client, message) => {
   const db = await getDatabaseInstance();
