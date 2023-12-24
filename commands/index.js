@@ -2,7 +2,8 @@ const { help } = require("./help.command");
 const { uptime } = require("./uptime.command");
 const { everyone } = require("./everyone.command");
 const { gpt } = require("./gpt.command");
-const roles = require("./roles.command");
+const { roles } = require("./roles.command");
+const { mention } = require("./mention.command");
 
 
 const commandList = {
@@ -17,6 +18,11 @@ const commandList = {
 }
 
 const commands = async (command, client, message, openai) => {
+    if (command.startsWith('@')) {
+        await mention(command.slice(1), client, message);
+        return
+    }
+
     await commandList[command.split(" ")[0].toLowerCase()](command.split(" ").slice(1).join(" "), client, message, openai);
 }
 
