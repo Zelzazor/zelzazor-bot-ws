@@ -33,7 +33,7 @@ const insertRole = async (db, roleName) => {
 
   stmt.free();
 
-  await saveDatabaseChanges(db);
+  await saveDatabaseChanges();
 
   return `${roleName} has been successfully created.`;
 
