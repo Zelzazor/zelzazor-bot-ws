@@ -1,6 +1,6 @@
 const { getDatabaseInstance } = require("../database");
-const { getRoles } = require("../database/repositories/roles");
-const { getPhoneNumberRoles } = require("../database/repositories/roles-subscribers");
+const { getRoles, insertRole } = require("../database/repositories/roles");
+const { getPhoneNumberRoles, subscribePhoneNumberToRole, unsubscribePhoneNumberToRole } = require("../database/repositories/roles-subscribers");
 
 const roles = async (body, _client, message) => {
   const db = await getDatabaseInstance();
@@ -42,20 +42,75 @@ You can mention roles using @<roleName>, example: @eldenRing.
   }
 };
 
-const listRoles = async (db, message, client, args) => {
+const listRoles = async (db, message, _client, args) => {
+  if (args[0] === 'self') {
+    const userSubscriptions = getPhoneNumberRoles(db, message.author)
 
+    if (userSubscriptions.length === 0) {
+      message.reply("You aren't subscribed to any roles");
+      return;
+    }
+
+    const reply = userSubscriptions.join('\n');
+    message.reply(reply);
+    return;
+  };
+
+  const roles = getRoles(db);
+
+  if (roles.length === 0) {
+    message.reply("There aren't any roles created yet, create one with `!roles create <roleName>`")
+    return;
+  }
+
+  const reply = roles.join('\n');
+  message.reply(reply);
 }
 
-const subscribeToRole = async (db, message, client, args) => {
+const subscribeToRole = async (db, message, _client, args) => {
 
+  if (args.length === 0) {
+    message.reply('Need to provide a role with this command, example: `!roles subscribe eldenRing`')
+    return
+  }
+  if (args.length > 1) {
+    message.reply('Spaces are not allowed for role names, example: `!roles subscribe eldenRing`')
+    return
+  }
+
+  const reply = subscribePhoneNumberToRole(db, message.author, args[0]);
+
+  message.reply(reply)
 }
 
-const unsubscribeFromRole = async (db, message, client, args) => {
+const unsubscribeFromRole = async (db, message, _client, args) => {
+  if (args.length === 0) {
+    message.reply('Need to provide a role with this command, example: `!roles unsubscribe eldenRing`')
+    return
+  }
+  if (args.length > 1) {
+    message.reply('Spaces are not allowed for role names, example: `!roles unsubscribe eldenRing`')
+    return
+  }
 
+  const reply = unsubscribePhoneNumberToRole(db, message.author, args[0]);
+
+  message.reply(reply)
 }
 
-const createRole = async (db, message, client, args) => {
+const createRole = async (db, message, _client, args) => {
+  if (args.length === 0) {
+    message.reply('Need to provide a role with this command, example: `!roles create eldenRing`')
+    return
+  }
+  if (args.length > 1) {
+    message.reply('Spaces are not allowed for role names, example: `!roles create eldenRing`')
+    return
+  }
 
+  const reply = insertRole(db, args[0]);
+
+  message.reply(reply);
 }
 
 module.exports = roles;
