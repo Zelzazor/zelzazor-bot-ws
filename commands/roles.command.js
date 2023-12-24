@@ -1,6 +1,6 @@
 const { getDatabaseInstance } = require("../database");
 const { getRoles, insertRole } = require("../database/repositories/roles");
-const { getPhoneNumberRoles, subscribePhoneNumberToRole, unsubscribePhoneNumberToRole } = require("../database/repositories/roles-subscribers");
+const { getRoleSubscriptions, subscribePhoneNumberToRole, unsubscribePhoneNumberToRole } = require("../database/repositories/roles-subscribers");
 
 const roles = async (body, _client, message) => {
   const db = await getDatabaseInstance();
@@ -44,7 +44,7 @@ You can mention roles using @<roleName>, example: @eldenRing.
 
 const listRoles = async (db, message, _client, args) => {
   if (args[0] === 'self') {
-    const userSubscriptions = getPhoneNumberRoles(db, message.author)
+    const userSubscriptions = getRoleSubscriptions(db, message.author)
 
     if (userSubscriptions.length === 0) {
       message.reply("You aren't subscribed to any roles");
@@ -78,7 +78,7 @@ const subscribeToRole = async (db, message, _client, args) => {
     return
   }
 
-  const reply = subscribePhoneNumberToRole(db, message.author, args[0]);
+  const reply = subscribePhoneNumberToRole(db, extractLeadingNumbers(message.author), args[0]);
 
   message.reply(reply)
 }
@@ -93,7 +93,7 @@ const unsubscribeFromRole = async (db, message, _client, args) => {
     return
   }
 
-  const reply = unsubscribePhoneNumberToRole(db, message.author, args[0]);
+  const reply = unsubscribePhoneNumberToRole(db, extractLeadingNumbers(message.author), args[0]);
 
   message.reply(reply)
 }
@@ -113,4 +113,4 @@ const createRole = async (db, message, _client, args) => {
   message.reply(reply);
 }
 
-module.exports = roles;
+module.exports = { roles };
