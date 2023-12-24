@@ -78,7 +78,7 @@ const subscribeToRole = async (db, message, _client, args) => {
     return
   }
 
-  const reply = subscribePhoneNumberToRole(db, extractLeadingNumbers(message.author), args[0]);
+  const reply = await subscribePhoneNumberToRole(db, extractLeadingNumbers(message.author), args[0]);
 
   message.reply(reply)
 }
@@ -93,7 +93,7 @@ const unsubscribeFromRole = async (db, message, _client, args) => {
     return
   }
 
-  const reply = unsubscribePhoneNumberToRole(db, extractLeadingNumbers(message.author), args[0]);
+  const reply = await unsubscribePhoneNumberToRole(db, extractLeadingNumbers(message.author), args[0]);
 
   message.reply(reply)
 }
@@ -108,7 +108,7 @@ const createRole = async (db, message, _client, args) => {
     return
   }
 
-  const reply = insertRole(db, args[0]);
+  const reply = await insertRole(db, args[0]);
 
   message.reply(reply);
 }
