@@ -51,7 +51,7 @@ const listRoles = async (db, message, _client, args) => {
       return;
     }
 
-    const reply = userSubscriptions.join('\n');
+    const reply = userSubscriptions.map(({ role_name }) => role_name).join('\n');
     message.reply(reply);
     return;
   };
